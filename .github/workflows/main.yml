@@ -2,7 +2,7 @@ name: CI
 
 on:
   push:
-    branches: develop
+    branches: test-setup-elixir
   pull_request:
     branches: develop
 env:
@@ -18,7 +18,7 @@ jobs:
       - name: checkout
         uses: actions/checkout@v2
       - name: setup
-        uses: erlef/setup-elixir@v1
+        uses: paulo-ferraz-oliveira/setup-elixir@adapt-for-rebar3
         with:
           otp-version: ${{ env.otp-version }}
           elixir-version: ${{ env.elixir-version }}
