@@ -18,7 +18,7 @@ jobs:
       matrix:
         os: [ubuntu-16.04, ubuntu-18.04, ubuntu-latest]
         otp: ['20.3', '21.3', '22.2', '23.1.2']
-        elixir: ['1.8.2', '1.9.4', '1.11.2']
+        elixir: ['1.11.2']
     steps:
       - name: checkout
         uses: actions/checkout@v2
@@ -50,7 +50,7 @@ jobs:
       matrix:
         os: [ubuntu-16.04, ubuntu-18.04, ubuntu-latest]
         otp: ['20.3', '21.3', '22.2', '23.1.2']
-        elixir: ['1.8.2', '1.9.4', '1.11.2']
+        elixir: ['1.11.2']
     steps:
       - name: checkout
         uses: actions/checkout@v2
@@ -80,7 +80,7 @@ jobs:
       matrix:
         os: [ubuntu-16.04, ubuntu-18.04, ubuntu-latest]
         otp: ['20.3', '21.3', '22.2', '23.1.2']
-        elixir: ['1.8.2', '1.9.4', '1.11.2']
+        elixir: ['1.11.2']
     steps:
       - name: checkout
         uses: actions/checkout@v2
@@ -109,7 +109,7 @@ jobs:
       matrix:
         os: [ubuntu-16.04, ubuntu-18.04, ubuntu-latest]
         otp: ['20.3', '21.3', '22.2', '23.1.2']
-        elixir: ['1.8.2', '1.9.4', '1.11.2']
+        elixir: ['1.11.2']
     steps:
       - name: checkout
         uses: actions/checkout@v2
@@ -138,8 +138,8 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-16.04, ubuntu-18.04, ubuntu-latest]
-        otp: ['20.3', '21.3', '22.2', '23.1.2']
-        elixir: ['1.8.2', '1.9.4', '1.11.2']
+        otp: ['21.3', '22.2', '23.1.2']
+        elixir: ['1.11.2']
     steps:
       - name: checkout
         uses: actions/checkout@v2
@@ -173,8 +173,8 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-16.04, ubuntu-18.04, ubuntu-latest]
-        otp: ['20.3', '21.3', '22.2', '23.1.2']
-        elixir: ['1.8.2', '1.9.4', '1.11.2']
+        otp: ['21.3', '22.2', '23.1.2']
+        elixir: ['1.11.2']
     services:
       postgres:
         image: postgres:11.5
