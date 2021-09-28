@@ -98,16 +98,18 @@
       post = get_post()
       <%= if assigns[:post] do %>
       //If we are not editing the same post
-      if (post["post_id"] != "<%= @post.id %>") {
-        post = new_post()
-        save_post(post)
-      //If the post was updated since our changes
-      } else if (parseInt(post["updated_at"]) < <%= DateTime.to_unix(@post.updated_at) %>) {
+      if (post["post_id"] != "<%= @post.id %>"
+          //If the post was updated since our changes
+          || parseInt(post["updated_at"]) < <%= DateTime.to_unix(@post.updated_at) %>
+          //If the changes are older than 24h
+          || parseInt(post["updated_at"]) < Math.floor((new Date()).getTime() / 1000 - 60 * 60 * 24)) {
         post = new_post()
         save_post(post)
       }
       <% else %>
-      if (post["post_id"] != "new") {
+      if (post["post_id"] != "new"
+          //If the changes are older than 24h
+          || parseInt(post["updated_at"]) < Math.floor((new Date()).getTime() / 1000 - 60 * 60 * 24)) {
         post = new_post()
         save_post(post)
       }
