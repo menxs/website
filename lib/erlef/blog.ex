@@ -110,6 +110,11 @@ defmodule Erlef.Blog do
     Post.changeset(post, attrs)
   end
 
+  @spec delete_post(Post.t()) :: {:ok, Post.t()} | {:error, Ecto.Changeset.t()}
+  def delete_post(%Post{} = post) do
+    Repo.delete(post)
+  end
+
   @spec categories_allowed_to_post(Member.t() | Ecto.UUID.t()) :: [String.t()]
   def categories_allowed_to_post(member_id) when is_binary(member_id) do
     categories_allowed_to_post(Accounts.get_member!(member_id))
