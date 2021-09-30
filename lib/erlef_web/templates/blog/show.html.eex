@@ -37,3 +37,18 @@
     </div>
   </div>
 </main>
+
+<script>
+  // Discard local storage if created the post
+  if (typeof(Storage) !== "undefined") {
+    try {
+      post = JSON.parse(localStorage.post)
+
+      if (post["post_id"] == "new"
+        && "<%= @post.status %>" == "draft"
+        && "<%= @post.title %>" == post["post_title"]){
+        localStorage.post = null
+      }      
+    } catch (err) {}
+  }
+</script>
