@@ -7,18 +7,25 @@
             <i class="fas fa-edit"></i> Edit Post
           <% end %>
         </li>
-        <%= if @post.status == :archived do %>
-          <li class="nav-item">
-            <%= link to: Routes.blog_path(@conn, :publish, @post.slug), method: :put, data: [confirm: "Are you sure?"], class: "nav-link" do %>
-              <i class="fas fa-paper-plane"></i> Publish post
-            <% end %>
-          </li>
-        <% else %>
-          <li class="nav-item"> 
-            <a class="nav-link" data-toggle="modal" data-target="#archiveModal">
-              <i class="fas fa-archive"></i> Archive post
-            </a>
-          </li>
+        <%= case @post.status do %>
+          <% :draft -> %>
+            <li class="nav-item">
+              <%= link to: Routes.blog_path(@conn, :publish, @post.slug), method: :put, data: [confirm: "Are you sure?"], class: "nav-link" do %>
+                <i class="fas fa-paper-plane"></i> Publish post
+              <% end %>
+            </li>
+          <% :published -> %>
+            <li class="nav-item"> 
+              <a class="nav-link" data-toggle="modal" data-target="#archiveModal">
+                <i class="fas fa-archive"></i> Archive post
+              </a>
+            </li>
+          <% :archived -> %>
+            <li class="nav-item">
+              <%= link to: Routes.blog_path(@conn, :publish, @post.slug), method: :put, data: [confirm: "Are you sure?"], class: "nav-link" do %>
+                <i class="fas fa-paper-plane"></i> Publish post
+              <% end %>
+            </li>
         <% end %>
       <% end %>
       <li class="nav-item">

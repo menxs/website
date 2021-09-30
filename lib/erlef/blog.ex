@@ -24,7 +24,7 @@ defmodule Erlef.Blog do
       categories ->
         query =
           from(p in Post,
-            where: p.category in ^categories and p.status == :archived,
+            where: p.category in ^categories and p.status != :published,
             order_by: [desc: p.published_at]
           )
 

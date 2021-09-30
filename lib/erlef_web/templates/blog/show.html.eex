@@ -1,6 +1,6 @@
 <main role="main" class="container mt-4">
-  <%= if @post.status == :archived do %>
-    <h5>Showing archived post</h5>
+  <%= if @post.status != :published do %>
+    <h5>Showing <%= humanize(@post.status)%> post</h5>
   <% end %>
   <div class="row">
     <div class="col-lg-8 blog-main">

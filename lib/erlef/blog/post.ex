@@ -11,7 +11,7 @@ defmodule Erlef.Blog.Post do
     field(:authors, {:array, :string}, default: [])
     field(:category, :string)
     field(:tags, {:array, :string}, default: [])
-    field(:status, Ecto.Enum, values: [:published, :archived], default: :archived)
+    field(:status, Ecto.Enum, values: [:draft, :published, :archived], default: :draft)
     field(:published_at, :utc_datetime)
 
     embeds_many(:post_versions, PostVersion) do
