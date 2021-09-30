@@ -105,9 +105,14 @@ defmodule Erlef.Blog do
     |> Repo.update()
   end
 
-  @spec change_post(Post.t(), map()) :: Ecto.Changeset.t()
+  @spec change_post(Post.t(), map()) :: {:ok, Post.t()} | {:error, Ecto.Changeset.t()}
   def change_post(%Post{} = post, attrs \\ %{}) do
     Post.changeset(post, attrs)
+  end
+
+  @spec delete_post(Post.t()) :: Ecto.Changeset.t()
+  def delete_post(%Post{} = post) do
+    Repo.delete(post)
   end
 
   @spec categories_allowed_to_post(Member.t() | Ecto.UUID.t()) :: [String.t()]

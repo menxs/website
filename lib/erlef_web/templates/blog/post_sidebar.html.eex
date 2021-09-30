@@ -14,9 +14,14 @@
                 <i class="fas fa-paper-plane"></i> Publish post
               <% end %>
             </li>
+            <li class="nav-item">
+              <a class="nav-link" data-toggle="modal" data-target="#confirmModal">
+                <i class="fas fa-trash-alt"></i> Delete post
+              </a>
+            </li>
           <% :published -> %>
             <li class="nav-item"> 
-              <a class="nav-link" data-toggle="modal" data-target="#archiveModal">
+              <a class="nav-link" data-toggle="modal" data-target="#confirmModal">
                 <i class="fas fa-archive"></i> Archive post
               </a>
             </li>
@@ -42,14 +47,21 @@
   </div>
 </div>
 
-
 <%= if assigns[:post] do %>
 <!-- Archive confirmation Modal -->
-<div class="modal fade" id="archiveModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="confirmModal" tabindex="-1" role="dialog" aria-labelledby="confirmModal" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="archiveModalLabel">Archive post</h5>
+        <h5 class="modal-title" id="confirmModalLabel">
+          <%= case @post.status do %>
+            <% :draft -> %>
+              Delete Post
+            <% :published -> %>
+              Archive Post
+            <% _ -> %>
+          <% end %>
+        </h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -61,10 +73,20 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <%= button to: Routes.blog_path(@conn, :archive, @post.slug), method: :put,
-          class: "btn btn-primary", id: "confirm-archive-button", disabled: "" do %>
-          Archive
-        <% end %>
+        <%= case @post.status do %>
+            <% :draft -> %>
+              <%= button to: Routes.blog_path(@conn, :delete, @post.slug), method: :delete,
+                class: "btn btn-danger", id: "confirm-button", disabled: "" do %>
+                Delete
+              <% end %>
+            <% :published -> %>
+              <%= button to: Routes.blog_path(@conn, :archive, @post.slug), method: :put,
+                class: "btn btn-primary", id: "confirm-button", disabled: "" do %>
+                Archive
+              <% end %>
+            <% _ -> %>
+          <% end %>
+        
       </div>
     </div>
   </div>
@@ -73,9 +95,9 @@
   function check_slug(el) {
     slug = el.value
     if (slug == "<%= @post.slug %>") {
-      document.getElementById("confirm-archive-button").removeAttribute("disabled")
+      document.getElementById("confirm-button").removeAttribute("disabled")
     } else {
-      document.getElementById("confirm-archive-button").setAttribute("disabled", "")
+      document.getElementById("confirm-button").setAttribute("disabled", "")
     }
   }
 
