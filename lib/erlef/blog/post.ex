@@ -21,7 +21,7 @@ defmodule Erlef.Blog.Post do
       field(:authors, {:array, :string})
       field(:category, :string)
       field(:tags, {:array, :string})
-      field(:status, Ecto.Enum, values: [:published, :archived])
+      field(:status, Ecto.Enum, values: [:draft, :published, :archived])
       field(:updated_by, Ecto.UUID)
       timestamps()
     end
