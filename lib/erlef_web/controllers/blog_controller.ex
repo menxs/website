@@ -207,14 +207,9 @@ defmodule ErlefWeb.BlogController do
     Map.put(post_params, "owner_id", conn.assigns.current_user.id)
   end
 
-  defp parse_tags(post_params, params) do
-
-  end
-
   defp parse_tags(%{"tags" => ""} = params), do: %{params | "tags" => []}
 
   defp parse_tags(%{"tags" => tags} = params) when is_bitstring(tags) do
-    IO.inspect(tags)
     parsed_tags =
       tags
       |> Jason.decode!()
