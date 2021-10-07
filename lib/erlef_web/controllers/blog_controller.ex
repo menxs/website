@@ -170,6 +170,7 @@ defmodule ErlefWeb.BlogController do
 
   def delete(conn, %{"id" => id}) do
     post = get!(id)
+
     case post.status do
       :draft ->
         {:ok, _post} = Blog.delete_post(post)
@@ -177,9 +178,10 @@ defmodule ErlefWeb.BlogController do
         conn
         |> put_flash(:info, "Post draft deleted successfully.")
         |> redirect(to: Routes.blog_path(conn, :index_archived))
+
       _ ->
         {:error, :not_found}
-    end    
+    end
   end
 
   defp get!(id), do: Blog.get_post_by_slug!(id)
@@ -214,6 +216,7 @@ defmodule ErlefWeb.BlogController do
       tags
       |> Jason.decode!()
       |> Enum.map(&Map.fetch!(&1, "value"))
+
     %{params | "tags" => parsed_tags}
   end
 
@@ -224,6 +227,7 @@ defmodule ErlefWeb.BlogController do
       authors
       |> String.split(~r/[[:blank:]]*,[[:blank:]]*/, trim: true)
       |> Enum.map(&String.trim/1)
+
     %{params | "authors" => splited_authors}
   end
 
