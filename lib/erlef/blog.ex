@@ -52,11 +52,6 @@ defmodule Erlef.Blog do
     Repo.all(query)
   end
 
-  @spec get_post_by_slug!(String.t()) :: Post.t()
-  def get_post_by_slug!(slug) do
-    Repo.one!(from(Post, where: [slug: ^slug]))
-  end
-
   @spec get_post_by_slug(String.t()) :: {:ok, Post.t()} | {:error, :not_found}
   def get_post_by_slug(slug) do
     query = from(Post, where: [slug: ^slug])

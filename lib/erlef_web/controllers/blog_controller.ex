@@ -93,7 +93,7 @@ defmodule ErlefWeb.BlogController do
       |> parse_tags()
       |> assign_owner(conn)
 
-    with true <- post_params["category"] in categories(conn),
+    with :ok <- allowed_to_edit(conn, post_params["category"]),
          {:ok, post} <- Blog.create_post(post_params) do
       conn
       |> put_flash(:info, "Post created successfully.")
@@ -109,7 +109,7 @@ defmodule ErlefWeb.BlogController do
 
   def edit(conn, %{"id" => id}) do
     with {:ok, post} <- get(id),
-         true <- post.category in categories(conn) do
+         :ok <- allowed_to_edit(conn, post.category) do
       changeset = Blog.change_post(post)
       render(conn, "edit.html", post: post, changeset: changeset)
     else
@@ -126,7 +126,7 @@ defmodule ErlefWeb.BlogController do
       |> parse_tags()
       |> Map.put("updated_by", conn.assigns.current_user.id)
 
-    with true <- post.category in categories(conn),
+    with :ok <- allowed_to_edit(conn, post.category),
          {:ok, post} <- Blog.update_post(post, post_params) do
       conn
       |> put_flash(:info, "Post updated successfully.")
@@ -144,7 +144,7 @@ defmodule ErlefWeb.BlogController do
     post = get!(id)
     params = %{"status" => :published, "updated_by" => conn.assigns.current_user.id}
 
-    with true <- post.category in categories(conn),
+    with :ok <- allowed_to_edit(conn, post.category),
          {:ok, post} <- Blog.update_post(post, params) do
       conn
       |> put_flash(:info, "Post published successfully.")
@@ -158,7 +158,7 @@ defmodule ErlefWeb.BlogController do
     post = get!(id)
     params = %{"status" => :archived, "updated_by" => conn.assigns.current_user.id}
 
-    with true <- post.category in categories(conn),
+    with :ok <- allowed_to_edit(conn, post.category),
          {:ok, post} <- Blog.update_post(post, params) do
       conn
       |> put_flash(:info, "Post archived successfully.")
@@ -171,20 +171,23 @@ defmodule ErlefWeb.BlogController do
   def delete(conn, %{"id" => id}) do
     post = get!(id)
 
-    case post.status do
-      :draft ->
-        {:ok, _post} = Blog.delete_post(post)
+    with :ok <- allowed_to_edit(conn, post.category),
+         :draft <- post.status do
+      {:ok, _post} = Blog.delete_post(post)
 
-        conn
-        |> put_flash(:info, "Post draft deleted successfully.")
-        |> redirect(to: Routes.blog_path(conn, :index_archived))
-
+      conn
+      |> put_flash(:info, "Post draft deleted successfully.")
+      |> redirect(to: Routes.blog_path(conn, :index_archived))
+    else
       _ ->
         {:error, :not_found}
     end
   end
 
-  defp get!(id), do: Blog.get_post_by_slug!(id)
+  defp get!(id) do
+    {:ok, post} = Blog.get_post_by_slug(id)
+    post
+  end
 
   defp get(id), do: Blog.get_post_by_slug(id)
 
@@ -235,6 +238,14 @@ defmodule ErlefWeb.BlogController do
 
   defp categories(conn) do
     Blog.categories_allowed_to_post(conn.assigns.current_user)
+  end
+
+  defp allowed_to_edit(conn, category) do
+    if category in categories(conn) do
+      :ok
+    else
+      :error
+    end
   end
 
   defp allowed_to_view?(conn, post) do

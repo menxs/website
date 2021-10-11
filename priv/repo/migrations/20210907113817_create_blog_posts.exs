@@ -18,5 +18,6 @@ defmodule Erlef.Repo.Migrations.CreateBlogPosts do
     end
 
     create index(:blog_posts, [:owner_id])
+    create unique_index(:blog_posts, [:slug])
   end
 end

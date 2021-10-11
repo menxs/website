@@ -11,6 +11,7 @@
         <%= label f, :title %>
         <%= text_input f, :title, class: "form-control form-control-lg", oninput: "save(this)"%>
         <%= error_tag f, :title %>
+        <%= error_tag f, :slug %>
       </div>
 
       <div class="form-group">

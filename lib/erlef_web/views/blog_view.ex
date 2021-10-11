@@ -3,7 +3,7 @@ defmodule ErlefWeb.BlogView do
 
   def as_html(txt) do
     txt
-    |> HtmlSanitizeEx.strip_tags()
+    |> HtmlSanitizeEx.markdown_html()
     |> Earmark.as_html!()
     |> raw()
   end
