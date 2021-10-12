@@ -89,7 +89,7 @@ defmodule ErlefWeb.BlogController do
   def create(conn, %{"post" => post_params}) do
     post_params =
       post_params
-      |> split_authors()
+      |> parse_authors()
       |> parse_tags()
       |> assign_owner(conn)
 
@@ -122,7 +122,7 @@ defmodule ErlefWeb.BlogController do
 
     post_params =
       post_params
-      |> split_authors()
+      |> parse_authors()
       |> parse_tags()
       |> Map.put("updated_by", conn.assigns.current_user.id)
 
@@ -225,16 +225,18 @@ defmodule ErlefWeb.BlogController do
 
   defp parse_tags(post_params), do: post_params
 
-  defp split_authors(%{"authors" => authors} = params) when is_bitstring(authors) do
-    splited_authors =
-      authors
-      |> String.split(~r/[[:blank:]]*,[[:blank:]]*/, trim: true)
-      |> Enum.map(&String.trim/1)
+  defp parse_authors(%{"authors" => ""} = params), do: %{params | "authors" => []}
 
-    %{params | "authors" => splited_authors}
+  defp parse_authors(%{"authors" => authors} = params) when is_bitstring(authors) do
+    parsed_authors =
+      authors
+      |> Jason.decode!()
+      |> Enum.map(&Map.fetch!(&1, "value"))
+
+    %{params | "authors" => parsed_authors}
   end
 
-  defp split_authors(post_params), do: post_params
+  defp parse_authors(post_params), do: post_params
 
   defp categories(conn) do
     Blog.categories_allowed_to_post(conn.assigns.current_user)

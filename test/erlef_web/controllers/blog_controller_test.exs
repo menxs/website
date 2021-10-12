@@ -7,7 +7,7 @@ defmodule ErlefWeb.BlogControllerTest do
     title: "some title",
     excerpt: "some excerpt",
     body: "some body",
-    authors: "some author, some other author",
+    authors: "[{\"value\":\"some author\"}, {\"value\":\"some other author\"}]",
     category: "eef",
     tags: "[{\"value\":\"some tag\"}, {\"value\":\"some other tag\"}]"
   }
@@ -15,7 +15,7 @@ defmodule ErlefWeb.BlogControllerTest do
     title: "some updated title",
     excerpt: "some updated excerpt",
     body: "some updated body",
-    authors: "some updated author, some other updated author",
+    authors: "[{\"value\":\"some updated author\"}, {\"value\":\"some other updated author\"}]",
     category: "newsletter",
     tags: "[{\"value\":\"some updated tag\"}, {\"value\":\"some other updated tag\"}]"
   }

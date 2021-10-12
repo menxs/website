@@ -15,7 +15,7 @@ defmodule Erlef.Blog.Post do
     field(:status, Ecto.Enum, values: [:draft, :published, :archived], default: :draft)
     field(:published_at, :utc_datetime)
 
-    embeds_many(:post_versions, PostVersion) do
+    embeds_many(:post_versions, PostVersion, on_replace: :delete) do
       field(:title, :string)
       field(:excerpt, :string)
       field(:body, :string)

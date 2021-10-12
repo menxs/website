@@ -16,7 +16,10 @@
 
       <div class="form-group">
         <%= label f, :authors %>
-        <%= text_input f, :authors, class: "form-control", value: authors_value(f), oninput: "save(this)"%>
+        <div class="input-group flex-row">
+          <%= text_input f, :authors, class: "post-form-authors", value: authors_value(f), onchange: "save(this)"%>
+          <button type="button" class="btn btn-primary">+</button>
+        </div>
         <%= error_tag f, :authors %>
       </div>
 
@@ -28,7 +31,7 @@
 
       <div class="form-group">
         <%= label f, :tags %>
-        <%= text_input f, :tags, class: "form-control", value: tags_value(f), oninput: "save(this)"%>
+        <%= text_input f, :tags, class: "post-form-tags", value: tags_value(f), onchange: "save(this)"%>
         <%= error_tag f, :tags %>
       </div>
 
@@ -52,6 +55,7 @@
       <%= submit "Save", class: "btn btn-primary" %>
     </div>
   <% end %>
+  <div id="blog_categories" style="display:none;"><%= Jason.encode!(@categories) %></div>
 </div>
 </div>
 <script>
@@ -126,7 +130,7 @@
     document.getElementById("post_body").value = post["post_body"]
   }
 </script>
-<script src="<%= Routes.static_path(@conn, "/js/toastui-editor-all.min.js") %>"></script> 
+<script src="<%= Routes.static_path(@conn, "/js/toastui-editor-all.min.js") %>"></script>
 <script>
   var post_body = document.getElementById('post_body');
   var editor = new toastui.Editor({
