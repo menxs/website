@@ -9,7 +9,7 @@ defmodule Erlef.Blog.Post do
     field(:slug, :string)
     field(:excerpt, :string)
     field(:body, :string)
-    field(:authors, {:array, :string}, default: [])
+    field(:authors, {:array, :string})
     field(:category, :string)
     field(:tags, {:array, :string}, default: [])
     field(:status, Ecto.Enum, values: [:draft, :published, :archived], default: :draft)

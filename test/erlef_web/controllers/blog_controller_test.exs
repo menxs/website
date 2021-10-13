@@ -23,7 +23,7 @@ defmodule ErlefWeb.BlogControllerTest do
     title: nil,
     excerpt: nil,
     body: nil,
-    authors: "",
+    authors: [],
     category: "eef",
     tags: nil,
     status: "42"

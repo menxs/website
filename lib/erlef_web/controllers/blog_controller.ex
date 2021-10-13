@@ -81,7 +81,10 @@ defmodule ErlefWeb.BlogController do
         {:error, :not_found}
 
       _ ->
-        changeset = Blog.change_post(%Post{})
+        changeset =
+          %Post{authors: [conn.assigns.current_user.name]}
+          |> Blog.change_post()
+
         render(conn, "new.html", changeset: changeset)
     end
   end
@@ -124,6 +127,7 @@ defmodule ErlefWeb.BlogController do
       post_params
       |> parse_authors()
       |> parse_tags()
+      |> assign_owner(conn)
       |> Map.put("updated_by", conn.assigns.current_user.id)
 
     with :ok <- allowed_to_edit(conn, post.category),
@@ -142,7 +146,10 @@ defmodule ErlefWeb.BlogController do
 
   def publish(conn, %{"id" => id}) do
     post = get!(id)
-    params = %{"status" => :published, "updated_by" => conn.assigns.current_user.id}
+
+    params =
+      %{"status" => :published, "updated_by" => conn.assigns.current_user.id}
+      |> assign_owner(conn)
 
     with :ok <- allowed_to_edit(conn, post.category),
          {:ok, post} <- Blog.update_post(post, params) do
@@ -156,7 +163,10 @@ defmodule ErlefWeb.BlogController do
 
   def archive(conn, %{"id" => id}) do
     post = get!(id)
-    params = %{"status" => :archived, "updated_by" => conn.assigns.current_user.id}
+
+    params =
+      %{"status" => :archived, "updated_by" => conn.assigns.current_user.id}
+      |> assign_owner(conn)
 
     with :ok <- allowed_to_edit(conn, post.category),
          {:ok, post} <- Blog.update_post(post, params) do

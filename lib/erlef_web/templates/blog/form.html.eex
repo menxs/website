@@ -75,25 +75,14 @@
 
     function new_post() {
       return {
-      <%= if assigns[:post] do %>
-        "post_id": "<%= @post.id %>",
-        "post_title": "<%= @post.title %>",
-        "post_category": "<%= @post.category %>",
-        "post_authors": "<%= Enum.join(@post.authors, ", ") %>",
-        "post_tags": "<%= Enum.join(@post.tags, ", ") %>",
-        "post_excerpt": "<%= @post.excerpt %>",
-        "post_body": "<%= @post.body %>",
-        "updated_at": "0"
-      <% else %>
-        "post_id": "new",
-        "post_title": "",
-        "post_category": "<%= hd(@categories) %>",
-        "post_authors": "",
-        "post_tags": "",
-        "post_excerpt": "",
-        "post_body": "",
-        "updated_at": "0"
-      <% end %>
+      "post_id": "<%= @changeset.data.id || "new" %>",
+      "post_title": "<%= javascript_escape(@changeset.data.title || "") %>",
+      "post_category": "<%= @changeset.data.category || hd(@categories)%>",
+      "post_authors": "<%= Enum.join(@changeset.data.authors || [], ", ") %>",
+      "post_tags": "<%= Enum.join(@changeset.data.tags, ", ") %>",
+      "post_excerpt": "<%= javascript_escape(@changeset.data.excerpt || "") %>",
+      "post_body": "<%= javascript_escape(@changeset.data.body || "") %>",
+      "updated_at": "0"
       }
     }
 
