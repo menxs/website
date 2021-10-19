@@ -27,6 +27,9 @@ defmodule Erlef.Blog.Post do
       timestamps()
     end
 
+    many_to_many :media_used, Erlef.Blog.Media,
+      join_through: Erlef.Blog.PostMedia, on_replace: :delete
+
     belongs_to(:owner, Erlef.Accounts.Member)
 
     timestamps()
