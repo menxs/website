@@ -119,46 +119,107 @@
     document.getElementById("post_body").value = post["post_body"]
   }
 </script>
-<script src="<%= Routes.static_path(@conn, "/js/toastui-editor-all.min.js") %>"></script>
-<script>
-  var post_body = document.getElementById('post_body');
-  var editor = new toastui.Editor({
-    el: document.querySelector('#body-editor'),
-    height: '500px',
-    initialEditType: 'markdown',
-    initialValue: post_body.value,
-    previewStyle: 'vertical',
-    previewHighlight: false,
-    usageStatistics: false,
-      toolbarItems: [
-          'heading',
-          'bold',
-          'italic',
-          'strike',
-          'divider',
-          'hr',
-          'quote',
-          'divider',
-          'ul',
-          'ol',
-          'task',
-          'indent',
-          'outdent',
-          'divider',
-          'table',
-          'link',
-          'divider',
-          'code',
-          'codeblock',
-        'divider'
-      ],
-     events: {
-        change: function() {
-          post_body.value = editor.getMarkdown();
-          save(post_body);
-        }
-     }
-  });
 
-editor.getHtml();
-</script>
+<div id="editor-image-popup" >
+  <ul class="nav nav-pills mb-3" id="media-modal-tab" role="tablist">
+    <li class="nav-item" role="presentation">
+      <a class="nav-link active" id="media-modal-select-tab" data-toggle="pill" href="#media-modal-select" role="tab" aria-controls="media-modal-select" aria-selected="true">Select</a>
+    </li>
+    <li class="nav-item" role="presentation">
+      <a class="nav-link" id="media-modal-upload-tab" data-toggle="pill" href="#media-modal-upload" role="tab" aria-controls="media-modal-upload" aria-selected="false">Upload</a>
+    </li>
+  </ul>
+  <div class="tab-content" id="media-modal-tabContent">
+    <div class="tab-pane fade show active" id="media-modal-select" role="tabpanel" aria-labelledby="media-modal-select-tab">
+      <form>
+        <div class="form-group">
+          <label for="mediaSelectCategory">Image Category</label>
+          <select class="form-control form-control-sm" id="mediaSelectCategory">
+            <option>C1</option>
+            <option>C2</option>
+            <option>C3</option>
+            <option>C4</option>
+            <option>C5</option>
+          </select>
+        </div>
+
+        <div class="form-group post-form-img-select">
+          <div class="form-row">
+            <div class="col">
+              <label>
+                <input type="radio" name="test" value="small" checked>
+                <img src="/images/getting-to-know/poliveira.png">
+              </label>
+            </div>
+            <div class="col">
+              <label>
+                <input type="radio" name="test" value="small" checked>
+                <img src="/images/getting-to-know/poliveira.png">
+              </label>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="col">
+              <label>
+                <input type="radio" name="test" value="small" checked>
+                <img src="/images/getting-to-know/poliveira.png">
+              </label>
+            </div>
+            <div class="col">
+              <label>
+                <input type="radio" name="test" value="small" checked>
+                <img src="/images/getting-to-know/poliveira.png">
+              </label>
+            </div>
+          </div><div class="form-row">
+            <div class="col">
+              <label>
+                <input type="radio" name="test" value="small" checked>
+                <img src="/images/getting-to-know/poliveira.png">
+              </label>
+            </div>
+            <div class="col">
+              <label>
+                <input type="radio" name="test" value="small" checked>
+                <img src="/images/getting-to-know/poliveira.png">
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <div class="toastui-editor-button-container">
+          <button type="button" class="toastui-editor-close-button" id="img-popup-close-select">Cancel</button>
+          <button type="button" class="toastui-editor-ok-button" id="img-popup-select">Select</button>
+        </div>
+      </form>
+    </div>
+    <div class="tab-pane fade" id="media-modal-upload" role="tabpanel" aria-labelledby="media-modal-upload-tab">
+      <form>
+        <div class="form-group">
+          <label for="mediaFile">Image file</label>
+          <div class="input-group mb-3">
+            <div class="custom-file">
+              <input type="file" class="custom-file-input" id="inputGroupFile01" aria-describedby="inputGroupFileAddon01">
+              <label class="custom-file-label" for="inputGroupFile01">Choose file</label>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="mediaCategory">Image Category</label>
+          <select class="form-control form-control-sm" id="mediaCategory">
+            <option>C1</option>
+            <option>C2</option>
+            <option>C3</option>
+            <option>C4</option>
+            <option>C5</option>
+          </select>
+        </div>
+        <div class="toastui-editor-button-container">
+          <button type="button" class="toastui-editor-close-button" id="img-popup-close-upload">Cancel</button>
+          <button type="button" class="toastui-editor-ok-button" id="img-popup-upload">Upload</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

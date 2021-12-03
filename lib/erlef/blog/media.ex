@@ -5,12 +5,15 @@ defmodule Erlef.Blog.Media do
   use Erlef.Schema
 
   schema "blog_media" do
-    field :category, :string
-    field :hashsum, :integer
-    field :url, :string
-    belongs_to :owner, Erlef.Accounts.Member
-    many_to_many :used_in, Erlef.Blog.Post,
-      join_through: Erlef.Blog.PostMedia, on_replace: :delete
+    field(:category, :string)
+    field(:hashsum, :integer)
+    field(:url, :string)
+    belongs_to(:owner, Erlef.Accounts.Member)
+
+    many_to_many(:used_in, Erlef.Blog.Post,
+      join_through: Erlef.Blog.PostMedia,
+      on_replace: :delete
+    )
 
     timestamps()
   end

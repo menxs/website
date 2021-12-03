@@ -11,6 +11,7 @@
     "@fullcalendar/core": "5.5.0",
     "@fullcalendar/daygrid": "5.5.0",
     "@fullcalendar/list": "5.5.0",
+    "@toast-ui/editor": "^3.1.1",
     "@yaireo/tagify": "^4.8.1",
     "admin-lte": "^3.1.0-rc",
     "bootstrap": "^4.6.0",

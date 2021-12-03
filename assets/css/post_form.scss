@@ -28,3 +28,47 @@
   transform: none;
   opacity: 1;
 }
+
+.post-form-img-select{
+  text-align: center;
+
+  /* HIDE RADIO */
+  [type=radio] { 
+    position: absolute;
+    opacity: 0;
+    width: 0;
+    height: 0;
+  }
+
+  /* IMAGE STYLES */
+  [type=radio] + img {
+    cursor: pointer;
+    padding: 3px;
+    border-width: 1px;
+    border-radius: 5px;
+    border-color: #ced4da;
+    border-style: solid;
+  }
+
+  /* CHECKED STYLES */
+  [type=radio]:checked + img {
+    border-color: var(--primary);
+    background-color: var(--primary);
+  }
+
+  img {
+    width: 100%;
+  }
+}
+
+#editor-image-popup {
+  display: none;
+
+  label {
+    margin-top: 0;
+  }
+}
+
+.toastui-editor-popup-body #editor-image-popup {
+  display: initial;
+}
